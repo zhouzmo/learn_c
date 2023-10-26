@@ -1,0 +1,6 @@
+# Ignore files in .vscode/
+.vscode/*
+
+# Ignore executable files
+*.exe
+*.out
