@@ -107,6 +107,35 @@ int main(void)
 }
 
 /*
+$ gcc -o client.out client.c -pthread
+$ gcc -o server.out server.c -pthread
+
+$ ./server.out
+服务器开启端口号: 3332
+等待客户端连接...
+创建线程，接受客户端消息...
+server please input message:server create thread tid = 140511389431552
+hello
+server please input message:
+tid【140511389431552】【6】client: hello!
+quit
+结束通信
+
+
+*/
+
+
+/*
+$ ./client.out
+client please input message:client create thread tid = 140428397987584
+
+tid【140428397987584】【5】server: hello
+hello!
+message send ret :6
+client please input message:1
+message send ret :1
+client please input message:1
+
 
 
 */
