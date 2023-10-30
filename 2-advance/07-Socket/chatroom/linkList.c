@@ -1,4 +1,4 @@
-#include "LinkList.h"
+#include "linkList.h"
 #include <string.h>
 /*
  *功能：创建单链表
