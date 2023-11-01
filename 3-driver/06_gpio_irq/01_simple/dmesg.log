@@ -1,0 +1,466 @@
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 4.9.88 (book@100ask) (gcc version 7.5.0 (Buildroot 2020.02-gd1ee3fb) ) #1 SMP PREEMPT Mon Jul 26 05:56:32 EDT 2021
+[    0.000000] CPU: ARMv7 Processor [410fc075] revision 5 (ARMv7), cr=10c53c7d
+[    0.000000] CPU: div instructions available: patching division code
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] OF: fdt:Machine model: Freescale i.MX6 ULL 14x14 EVK Board
+[    0.000000] Reserved memory: created CMA memory pool at 0x8c000000, size 320 MiB
+[    0.000000] OF: reserved mem: initialized node linux,cma, compatible id shared-dma-pool
+[    0.000000] Memory policy: Data cache writealloc
+[    0.000000] On node 0 totalpages: 131072
+[    0.000000] free_area_init_node: node 0, pgdat 812ec140, node_mem_map 8bb57000
+[    0.000000]   Normal zone: 1024 pages used for memmap
+[    0.000000]   Normal zone: 0 pages reserved
+[    0.000000]   Normal zone: 131072 pages, LIFO batch:31
+[    0.000000] percpu: Embedded 15 pages/cpu @8bb2f000 s30156 r8192 d23092 u61440
+[    0.000000] pcpu-alloc: s30156 r8192 d23092 u61440 alloc=15*4096
+[    0.000000] pcpu-alloc: [0] 0 
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 130048
+[    0.000000] Kernel command line: console=ttymxc0,115200 root=/dev/mmcblk1p2 rootwait rw
+[    0.000000] PID hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.000000] Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+[    0.000000] Memory: 172240K/524288K available (11264K kernel code, 1103K rwdata, 4040K rodata, 1024K init, 477K bss, 24368K reserved, 327680K cma-reserved, 0K highmem)
+[    0.000000] Virtual kernel memory layout:
+[    0.000000]     vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+[    0.000000]     fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+[    0.000000]     vmalloc : 0xa0800000 - 0xff800000   (1520 MB)
+[    0.000000]     lowmem  : 0x80000000 - 0xa0000000   ( 512 MB)
+[    0.000000]     pkmap   : 0x7fe00000 - 0x80000000   (   2 MB)
+[    0.000000]     modules : 0x7f000000 - 0x7fe00000   (  14 MB)
+[    0.000000]       .text : 0x80008000 - 0x80c00000   (12256 kB)
+[    0.000000]       .init : 0x81100000 - 0x81200000   (1024 kB)
+[    0.000000]       .data : 0x81200000 - 0x81313c70   (1104 kB)
+[    0.000000]        .bss : 0x81315000 - 0x8138c6d8   ( 478 kB)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=1, Nodes=1
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] 	Build-time adjustment of leaf fanout to 32.
+[    0.000000] 	RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=1.
+[    0.000000] RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=1
+[    0.000000] NR_IRQS:16 nr_irqs:16 16
+[    0.000000] Switching to timer-based delay loop, resolution 333ns
+[    0.000019] sched_clock: 32 bits at 3000kHz, resolution 333ns, wraps every 715827882841ns
+[    0.000067] clocksource: mxc_timer1: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 637086815595 ns
+[    0.004328] Console: colour dummy device 80x30
+[    0.004382] Calibrating delay loop (skipped), value calculated using timer frequency.. 6.00 BogoMIPS (lpj=30000)
+[    0.004428] pid_max: default: 32768 minimum: 301
+[    0.004683] Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.004716] Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+[    0.006410] CPU: Testing write buffer coherency: ok
+[    0.006513] ftrace: allocating 35227 entries in 104 pages
+[    0.140511] /cpus/cpu@0 missing clock-frequency property
+[    0.140563] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+[    0.140633] Setting up static identity map for 0x80100000 - 0x80100058
+[    0.229325] Brought up 1 CPUs
+[    0.229365] SMP: Total of 1 processors activated (6.00 BogoMIPS).
+[    0.229388] CPU: All CPU(s) started in SVC mode.
+[    0.230962] devtmpfs: initialized
+[    0.248966] OF: Duplicate name in lcdif@021c8000, renamed to "display#1"
+[    0.255389] VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
+[    0.256240] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.256298] futex hash table entries: 256 (order: 2, 16384 bytes)
+[    0.282798] pinctrl core: initialized pinctrl subsystem
+[    0.285465] NET: Registered protocol family 16
+[    0.305479] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.331414] cpuidle: using governor menu
+[    0.390722] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+[    0.390761] hw-breakpoint: maximum watchpoint size is 8 bytes.
+[    0.395236] imx6ul-pinctrl 20e0000.iomuxc: Invalid fsl,pins property in node /soc/aips-bus@02000000/iomuxc@020e0000/imx6ul-evk/enet1grp
+[    0.396092] imx6ul-pinctrl 20e0000.iomuxc: initialized IMX pinctrl driver
+[    0.397006] imx6ul-pinctrl 2290000.iomuxc-snvs: initialized IMX pinctrl driver
+[    0.535563] mxs-dma 1804000.dma-apbh: initialized
+[    0.543714] SCSI subsystem initialized
+[    0.553518] libata version 3.00 loaded.
+[    0.554332] usbcore: registered new interface driver usbfs
+[    0.554547] usbcore: registered new interface driver hub
+[    0.554815] usbcore: registered new device driver usb
+[    0.557382] i2c i2c-0: IMX I2C adapter registered
+[    0.557435] i2c i2c-0: can't use DMA, using PIO instead.
+[    0.559843] i2c i2c-1: IMX I2C adapter registered
+[    0.559897] i2c i2c-1: can't use DMA, using PIO instead.
+[    0.561147] Linux video capture interface: v2.00
+[    0.561338] pps_core: LinuxPPS API ver. 1 registered
+[    0.561363] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    0.561428] PTP clock support registered
+[    0.564591] MIPI CSI2 driver module loaded
+[    0.565881] imx rpmsg driver is registered.
+[    0.566399] Advanced Linux Sound Architecture Driver Initialized.
+[    0.568645] Bluetooth: Core ver 2.22
+[    0.568782] NET: Registered protocol family 31
+[    0.568807] Bluetooth: HCI device and connection manager initialized
+[    0.568850] Bluetooth: HCI socket layer initialized
+[    0.568890] Bluetooth: L2CAP socket layer initialized
+[    0.568991] Bluetooth: SCO socket layer initialized
+[    0.584221] clocksource: Switched to clocksource mxc_timer1
+[    0.773333] VFS: Disk quotas dquot_6.6.0
+[    0.773514] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    0.803140] NET: Registered protocol family 2
+[    0.804893] TCP established hash table entries: 4096 (order: 2, 16384 bytes)
+[    0.805025] TCP bind hash table entries: 4096 (order: 3, 32768 bytes)
+[    0.805187] TCP: Hash tables configured (established 4096 bind 4096)
+[    0.805328] UDP hash table entries: 256 (order: 1, 8192 bytes)
+[    0.805390] UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+[    0.805800] NET: Registered protocol family 1
+[    0.827136] RPC: Registered named UNIX socket transport module.
+[    0.827172] RPC: Registered udp transport module.
+[    0.827194] RPC: Registered tcp transport module.
+[    0.827215] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    0.833717] Bus freq driver module loaded
+[    0.848854] workingset: timestamp_bits=30 max_order=17 bucket_order=0
+[    0.879817] NFS: Registering the id_resolver key type
+[    0.879893] Key type id_resolver registered
+[    0.879918] Key type id_legacy registered
+[    0.880047] jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+[    0.881969] fuse init (API version 7.26)
+[    0.901435] io scheduler noop registered
+[    0.901474] io scheduler deadline registered
+[    0.901964] io scheduler cfq registered (default)
+[    0.903307] imx-weim 21b8000.weim: Driver registered.
+[    0.912620] backlight supply power not found, using dummy regulator
+[    0.922103] sii902x 1-0039: No reset pin found
+[    0.926045] 21c8000.lcdif supply lcd not found, using dummy regulator
+[    1.063006] Console: switching to colour frame buffer device 128x37
+[    1.170141] 100ask, drivers/video/fbdev/mxsfb.c mxsfb_probe 2341
+[    1.194365] mxsfb 21c8000.lcdif: Success seset LCDIF
+[    1.194407] mxsfb 21c8000.lcdif: initialized
+[    1.197961] imx-sdma 20ec000.sdma: loaded firmware 3.3
+[    1.209495] 2020000.serial: ttymxc0 at MMIO 0x2020000 (irq = 20, base_baud = 5000000) is a IMX
+[    1.912185] console [ttymxc0] enabled
+[    1.918307] 21ec000.serial: ttymxc2 at MMIO 0x21ec000 (irq = 73, base_baud = 5000000) is a IMX
+[    1.928870] 21fc000.serial: ttymxc5 at MMIO 0x21fc000 (irq = 74, base_baud = 5000000) is a IMX
+[    1.976019] imx-rng 2284000.rngb: iMX RNG Registered.
+[    1.981944] imx sema4 driver is registered.
+[    1.986470] [drm] Initialized
+[    1.990873] [drm] Initialized vivante 1.0.0 20120216 on minor 0
+[    2.194040] brd: module loaded
+[    2.266620] loop: module loaded
+[    2.280196] spi_gpio spi4: gpio-miso property not found, switching to no-rx mode
+[    2.293364] spi_imx 2008000.ecspi: No CS GPIOs available
+[    2.299151] spi_imx: probe of 2008000.ecspi failed with error -22
+[    2.308123] spi_imx 2010000.ecspi: probed
+[    2.315689] libphy: Fixed MDIO Bus: probed
+[    2.320965] CAN device driver interface
+[    2.327958] flexcan 2090000.can: device registered (reg_base=a0a00000, irq=29)
+[    2.339131] 20b4000.ethernet supply phy not found, using dummy regulator
+[    2.395592] pps pps0: new PPS source ptp0
+[    2.402325] libphy: fec_enet_mii_bus: probed
+[    2.421246] fec 20b4000.ethernet eth0: registered PHC device 0
+[    2.428782] 2188000.ethernet supply phy not found, using dummy regulator
+[    2.485429] pps pps1: new PPS source ptp1
+[    2.493473] fec 2188000.ethernet eth1: registered PHC device 1
+[    2.501657] PPP generic driver version 2.4.2
+[    2.506837] PPP BSD Compression module registered
+[    2.511598] PPP Deflate Compression module registered
+[    2.516832] PPP MPPE Compression module registered
+[    2.521669] NET: Registered protocol family 24
+[    2.526287] SLIP: version 0.8.4-NET3.019-NEWTTY (dynamic channels, max=256) (6 bit encapsulation enabled).
+[    2.536158] CSLIP: code copyright 1989 Regents of the University of California.
+[    2.543509] SLIP linefill/keepalive option.
+[    2.548046] usbcore: registered new interface driver asix
+[    2.553657] usbcore: registered new interface driver ax88179_178a
+[    2.560033] usbcore: registered new interface driver cdc_ether
+[    2.566126] usbcore: registered new interface driver cdc_eem
+[    2.571985] usbcore: registered new interface driver net1080
+[    2.577910] usbcore: registered new interface driver cdc_subset
+[    2.584000] usbcore: registered new interface driver zaurus
+[    2.589912] usbcore: registered new interface driver cdc_ncm
+[    2.595685] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    2.602295] ehci-platform: EHCI generic platform driver
+[    2.608643] ehci-mxc: Freescale On-Chip EHCI Host driver
+[    2.614452] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    2.620756] ohci-platform: OHCI generic platform driver
+[    2.626093] random: fast init done
+[    2.630391] usbcore: registered new interface driver cdc_acm
+[    2.636214] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[    2.644549] usbcore: registered new interface driver usblp
+[    2.650221] usbcore: registered new interface driver cdc_wdm
+[    2.656193] usbcore: registered new interface driver usb-storage
+[    2.662553] usbcore: registered new interface driver usbserial
+[    2.668655] usbcore: registered new interface driver usbserial_generic
+[    2.675419] usbserial: USB Serial support registered for generic
+[    2.681580] usbcore: registered new interface driver option
+[    2.687374] usbserial: USB Serial support registered for GSM modem (1-port)
+[    2.694592] usbcore: registered new interface driver usb_ehset_test
+[    2.704081] 2184800.usbmisc supply vbus-wakeup not found, using dummy regulator
+[    2.714114] 2184000.usb supply vbus not found, using dummy regulator
+[    2.739403] 2184200.usb supply vbus not found, using dummy regulator
+[    2.750054] ci_hdrc ci_hdrc.1: EHCI Host Controller
+[    2.755172] ci_hdrc ci_hdrc.1: new USB bus registered, assigned bus number 1
+[    2.794341] ci_hdrc ci_hdrc.1: USB 2.0 started, EHCI 1.00
+[    2.802510] hub 1-0:1.0: USB hub found
+[    2.806667] hub 1-0:1.0: 1 port detected
+[    2.814022] mousedev: PS/2 mouse device common for all mice
+[    2.822400] input: 20cc000.snvs:snvs-powerkey as /devices/soc0/soc/2000000.aips-bus/20cc000.snvs/20cc000.snvs:snvs-powerkey/input/input0
+[    2.837403] imx6ul-pinctrl 20e0000.iomuxc: pin MX6UL_PAD_GPIO1_IO01 already requested by 2010000.ecspi; cannot claim for 2040000.tsc
+[    2.849647] imx6ul-pinctrl 20e0000.iomuxc: pin-24 (2040000.tsc) status -22
+[    2.856664] imx6ul-pinctrl 20e0000.iomuxc: could not request pin 24 (MX6UL_PAD_GPIO1_IO01) from group tscgrp  on device 20e0000.iomuxc
+[    2.868850] imx6ul-tsc 2040000.tsc: Error applying setting, reverse things back
+[    2.876292] imx6ul-tsc: probe of 2040000.tsc failed with error -22
+[    2.883798] usbcore: registered new interface driver usbtouchscreen
+[    2.890836] Gt9xx driver installing..
+[    2.895154] goodix-ts 1-005d: GTP Driver Version: V2.8.0.2<2017/12/14>
+[    2.901743] goodix-ts 1-005d: GTP I2C Address: 0x5d
+[    2.906826] goodix-ts 1-005d: touch input parameters is [id x y w p]<1 800 480 1024 1024>
+[    2.915601] 1-005d supply vdd_ana not found, using dummy regulator
+[    2.922009] 1-005d supply vcc_i2c not found, using dummy regulator
+[    2.928564] goodix-ts 1-005d: Failed get pinctrl state:output_high
+[    2.934915] goodix-ts 1-005d: Success request irq-gpio
+[    2.940112] goodix-ts 1-005d: Success request rst-gpio
+[    2.945352] goodix-ts 1-005d: try to reset and read Guitar 0
+[    2.951057] goodix-ts 1-005d: Guitar reset
+[    2.986594] goodix-ts 1-005d: I2C Addr is 5d
+[    2.992529] goodix-ts 1-005d: IC Version: 911_1060
+[    2.999342] goodix-ts 1-005d: Driver set not send config
+[    3.035806] goodix-ts 1-005d: Use slot report protocol
+[    3.041624] input: goodix-ts as /devices/virtual/input/input1
+[    3.048062] goodix-ts 1-005d: INT num 84, trigger type:2
+[    3.054044] goodix-ts 1-005d: create proc entry gt9xx_config success
+[    3.060658] goodix-ts 1-005d: Alloc memory size:1534.
+[    3.065835] goodix-ts 1-005d: I2C function: without pre and end cmd!
+[    3.072250] goodix-ts 1-005d: Create proc entry success!
+[    3.081823] snvs_rtc 20cc000.snvs:snvs-rtc-lp: rtc core: registered 20cc000.snvs:snvs-r as rtc0
+[    3.092006] i2c /dev entries driver
+[    3.097372] IR NEC protocol handler initialized
+[    3.101966] IR RC5(x/sz) protocol handler initialized
+[    3.107177] IR RC6 protocol handler initialized
+[    3.111748] IR JVC protocol handler initialized
+[    3.116373] IR Sony protocol handler initialized
+[    3.121027] IR SANYO protocol handler initialized
+[    3.125813] IR Sharp protocol handler initialized
+[    3.130553] IR MCE Keyboard/mouse protocol handler initialized
+[    3.136561] IR XMP protocol handler initialized
+[    3.144704] pxp-v4l2 pxp_v4l2: initialized
+[    3.155425] imx2-wdt 20bc000.wdog: timeout 60 sec (nowayout=0)
+[    3.163127] Bluetooth: HCI UART driver ver 2.3
+[    3.167937] usb 1-1: new high-speed USB device number 2 using ci_hdrc
+[    3.175216] Bluetooth: HCI UART protocol H4 registered
+[    3.180488] Bluetooth: HCI UART protocol BCSP registered
+[    3.186043] Bluetooth: HCI UART protocol ATH3K registered
+[    3.192008] usbcore: registered new interface driver bcm203x
+[    3.198411] usbcore: registered new interface driver btusb
+[    3.208459] sdhci: Secure Digital Host Controller Interface driver
+[    3.214894] sdhci: Copyright(c) Pierre Ossman
+[    3.219368] sdhci-pltfm: SDHCI platform and OF driver helper
+[    3.229265] sdhci-esdhc-imx 2190000.usdhc: could not get ultra high speed state, work on normal mode
+[    3.239028] sdhci-esdhc-imx 2190000.usdhc: Got CD GPIO
+[    3.305932] mmc0: SDHCI controller on 2190000.usdhc [2190000.usdhc] using ADMA
+[    3.315065] sdhci-esdhc-imx 2194000.usdhc: could not get ultra high speed state, work on normal mode
+[    3.367002] hub 1-1:1.0: USB hub found
+[    3.371106] hub 1-1:1.0: 4 ports detected
+[    3.384337] mmc1: SDHCI controller on 2194000.usdhc [2194000.usdhc] using ADMA
+[    3.403747] ledtrig-cpu: registered to indicate activity on CPUs
+[    3.427358] usbcore: registered new interface driver usbhid
+[    3.432997] usbhid: USB HID core driver
+[    3.472030] wm8960 1-001a: No platform data supplied
+[    3.520264] mmc1: new DDR MMC card at address 0001
+[    3.536965] mmcblk1: mmc1:0001 S40004 3.64 GiB 
+[    3.552485] mmcblk1boot0: mmc1:0001 S40004 partition 1 4.00 MiB
+[    3.569658] mmcblk1boot1: mmc1:0001 S40004 partition 2 4.00 MiB
+[    3.586804] mmcblk1rpmb: mmc1:0001 S40004 partition 3 4.00 MiB
+[    3.604959]  mmcblk1: p1 p2 p3
+[    3.619072] imx-wm8960 sound: wm8960-hifi <-> 202c000.sai mapping ok
+[    3.631856] imx-wm8960 sound: snd-soc-dummy-dai <-> 2034000.asrc mapping ok
+[    3.639603] imx-wm8960 sound: wm8960-hifi <-> 202c000.sai mapping ok
+[    3.694301] usb 1-1.1: new high-speed USB device number 3 using ci_hdrc
+[    3.778783] NET: Registered protocol family 26
+[    3.785361] NET: Registered protocol family 10
+[    3.802963] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+[    3.811086] NET: Registered protocol family 17
+[    3.815888] can: controller area network core (rev 20120528 abi 9)
+[    3.822312] NET: Registered protocol family 29
+[    3.826947] can: raw protocol (rev 20120528)
+[    3.831269] can: broadcast manager protocol (rev 20161123 t)
+[    3.837056] can: netlink gateway (rev 20130117) max_hops=1
+[    3.843313] Bluetooth: RFCOMM TTY layer initialized
+[    3.848575] Bluetooth: RFCOMM socket layer initialized
+[    3.854559] Bluetooth: RFCOMM ver 1.11
+[    3.858630] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    3.864171] Bluetooth: BNEP filters: protocol multicast
+[    3.869805] Bluetooth: BNEP socket layer initialized
+[    3.878060] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[    3.884148] Bluetooth: HIDP socket layer initialized
+[    3.889588] 8021q: 802.1Q VLAN Support v1.8
+[    3.893959] lib80211: common routines for IEEE802.11 drivers
+[    3.900062] lib80211_crypt: registered algorithm 'NULL'
+[    3.900080] lib80211_crypt: registered algorithm 'WEP'
+[    3.900092] lib80211_crypt: registered algorithm 'CCMP'
+[    3.900105] lib80211_crypt: registered algorithm 'TKIP'
+[    3.900177] Key type dns_resolver registered
+[    3.908853] cpu cpu0: Registered imx6q-cpufreq
+[    3.956742] Bluetooth: hci0: rtl: examining hci_ver=06 hci_rev=000b lmp_ver=06 lmp_subver=8723
+[    3.965610] Bluetooth: hci0: rtl: loading rtl_bt/rtl8723b_config.bin
+[    3.972139] bluetooth hci0: Falling back to user helper
+[    4.017358] imx_thermal 2000000.aips-bus:tempmon: Industrial CPU temperature grade - max:105C critical:100C passive:95C
+[    4.029726] snvs_rtc 20cc000.snvs:snvs-rtc-lp: setting system clock to 1970-01-01 00:17:05 UTC (1025)
+[    4.039815] ltemodule-pwr: disabling
+[    4.043425] wifi-pwr: disabling
+[    4.046683] ALSA device list:
+[    4.049670]   #0: wm8960-audio
+[    4.064799] EXT4-fs (mmcblk1p2): couldn't mount as ext3 due to feature incompatibilities
+[    4.094613] EXT4-fs (mmcblk1p2): mounted filesystem with ordered data mode. Opts: (null)
+[    4.102807] VFS: Mounted root (ext4 filesystem) on device 179:2.
+[    4.110293] devtmpfs: mounted
+[    4.115783] Freeing unused kernel memory: 1024K
+[    4.354118] EXT4-fs (mmcblk1p2): re-mounted. Opts: data=ordered
+[    4.891952] ds18b20_drv_init OK.
+[    4.930914] dht11_drv_init OK.
+[    4.995289] irda_drv_init OK.
+[    5.133392] udevd[179]: starting version 3.2.9
+[    5.293394] udevd[180]: starting eudev-3.2.9
+[    6.404594] inv-mpu6000-spi spi2.0: mounting matrix not found: using identity...
+[    6.620820] evbug: Connected device: input0 (20cc000.snvs:snvs-powerkey at snvs-pwrkey/input0)
+[    6.620839] evbug: Connected device: input1 (goodix-ts at input/ts)
+[    6.956548] 8723bu: loading out-of-tree module taints kernel.
+[    7.166366] RTL871X: module init start
+[    7.166385] RTL871X: rtl8723bu v4.3.6.11_12942.20141204_BTCOEX20140507-4E40
+[    7.166392] RTL871X: rtl8723bu BT-Coex version = BTCOEX20140507-4E40
+[    7.573177] RTL871X: rtw_ndev_init(wlan0)
+[    7.586974] RTL871X: rtw_ndev_init(wlan1)
+[    7.604956] usbcore: registered new interface driver rtl8723bu
+[    7.637730] RTL871X: module init ret=0
+[    8.636714] Generic PHY 20b4000.ethernet-1:00: attached PHY driver [Generic PHY] (mii_bus:phy_addr=20b4000.ethernet-1:00, irq=-1)
+[    8.650225] IPv6: ADDRCONF(NETDEV_UP): eth1: link is not ready
+[   10.224904] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[   10.233590] Generic PHY 20b4000.ethernet-1:01: attached PHY driver [Generic PHY] (mii_bus:phy_addr=20b4000.ethernet-1:01, irq=-1)
+[   10.247559] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[   10.523433] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[   10.694922] fec 2188000.ethernet eth1: Link is Up - 100Mbps/Full - flow control rx/tx
+[   11.437870] RTL871X: RTW_ADAPTIVITY_EN_
+[   11.437896] AUTO, chplan:0x20, Regulation:3,3
+[   11.437906] RTL871X: RTW_ADAPTIVITY_MODE_
+[   11.437911] NORMAL
+[   12.109049] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[   12.116256] IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
+[   12.261711] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[   12.400638] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[   12.407989] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[   12.521228] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[   13.587478] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[   13.647724] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[   15.370557] RTL871X: nolinked power save enter
+[   17.955247] RTL871X: RTW_ADAPTIVITY_EN_
+[   17.955273] AUTO, chplan:0x20, Regulation:3,3
+[   17.955283] RTL871X: RTW_ADAPTIVITY_MODE_
+[   17.955288] NORMAL
+[   20.785694] RTL871X: nolinked power save leave
+[   22.982375] RTL871X: nolinked power save enter
+[   40.936744] RTL871X: RTW_ADAPTIVITY_EN_
+[   40.936770] AUTO, chplan:0x20, Regulation:3,3
+[   40.936779] RTL871X: RTW_ADAPTIVITY_MODE_
+[   40.936784] NORMAL
+[   43.738562] RTL871X: nolinked power save leave
+[   46.083687] RTL871X: nolinked power save enter
+[   64.535110] Bluetooth: hci0: Failed to load rtl_bt/rtl8723b_config.bin
+[   64.541816] Bluetooth: hci0: rtl: loading rtl_bt/rtl8723b_fw.bin
+[   64.577906] Bluetooth: hci0: rom_version status=0 version=1
+[   64.583863] Bluetooth: cfg_sz 0, total size 22768
+[   73.934120] RTL871X: RTW_ADAPTIVITY_EN_
+[   73.934146] AUTO, chplan:0x20, Regulation:3,3
+[   73.934155] RTL871X: RTW_ADAPTIVITY_MODE_
+[   73.934161] NORMAL
+[   75.309330] random: crng init done
+[   76.748708] RTL871X: nolinked power save leave
+[   78.611142] RTL871X: nolinked power save enter
+[   90.537366] /home/book/learn_c/3-driver/06_gpio_irq/01_simple/gpio_key_drv.c gpio_key_init line 137
+[   90.538976] /home/book/learn_c/3-driver/06_gpio_irq/01_simple/gpio_key_drv.c gpio_key_probe line 60
+[   94.565705] key 110 1
+[   94.761044] key 110 0
+[   95.290786] key 129 1
+[   95.530737] key 129 0
+[   98.012617] key 110 1
+[   98.248448] key 110 0
+[  100.201440] key 129 1
+[  100.469949] key 129 0
+[  105.495698] evbug: Event. Dev: input1, Type: 3, Code: 57, Value: 0
+[  105.495742] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 475
+[  105.495768] evbug: Event. Dev: input1, Type: 3, Code: 54, Value: 5
+[  105.495793] evbug: Event. Dev: input1, Type: 3, Code: 48, Value: 6
+[  105.495817] evbug: Event. Dev: input1, Type: 3, Code: 58, Value: 6
+[  105.495841] evbug: Event. Dev: input1, Type: 1, Code: 330, Value: 1
+[  105.495865] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  108.134717] evbug: Event. Dev: input1, Type: 3, Code: 57, Value: -1
+[  108.134744] evbug: Event. Dev: input1, Type: 1, Code: 330, Value: 0
+[  108.134762] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  110.234551] evbug: Event. Dev: input0, Type: 1, Code: 116, Value: 1
+[  110.234593] evbug: Event. Dev: input0, Type: 0, Code: 0, Value: 0
+[  110.374307] evbug: Event. Dev: input0, Type: 1, Code: 116, Value: 0
+[  110.374327] evbug: Event. Dev: input0, Type: 0, Code: 0, Value: 0
+[  116.956493] RTL871X: RTW_ADAPTIVITY_EN_
+[  116.956518] AUTO, chplan:0x20, Regulation:3,3
+[  116.956527] RTL871X: RTW_ADAPTIVITY_MODE_
+[  116.956532] NORMAL
+[  119.754415] RTL871X: nolinked power save leave
+[  121.622049] RTL871X: nolinked power save enter
+[  169.959366] RTL871X: RTW_ADAPTIVITY_EN_
+[  169.959392] AUTO, chplan:0x20, Regulation:3,3
+[  169.959401] RTL871X: RTW_ADAPTIVITY_MODE_
+[  169.959408] NORMAL
+[  172.769272] RTL871X: nolinked power save leave
+[  174.652682] RTL871X: nolinked power save enter
+[  230.162198] key 110 1
+[  230.368893] key 110 0
+[  232.957244] RTL871X: RTW_ADAPTIVITY_EN_
+[  232.957270] AUTO, chplan:0x20, Regulation:3,3
+[  232.957279] RTL871X: RTW_ADAPTIVITY_MODE_
+[  232.957286] NORMAL
+[  235.754417] RTL871X: nolinked power save leave
+[  237.623308] RTL871X: nolinked power save enter
+[  239.993450] key 129 1
+[  240.235515] key 129 0
+[  250.716180] evbug: Event. Dev: input1, Type: 3, Code: 57, Value: 1
+[  250.716223] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 568
+[  250.716251] evbug: Event. Dev: input1, Type: 3, Code: 48, Value: 9
+[  250.716275] evbug: Event. Dev: input1, Type: 3, Code: 58, Value: 9
+[  250.716299] evbug: Event. Dev: input1, Type: 1, Code: 330, Value: 1
+[  250.716324] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  251.998698] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 569
+[  251.998723] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.009588] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 572
+[  252.009612] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.020600] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 575
+[  252.020624] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.031470] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 578
+[  252.031496] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.042603] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 580
+[  252.042628] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.075404] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 581
+[  252.075427] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.108472] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 582
+[  252.108497] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.130503] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 583
+[  252.130536] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.141106] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 584
+[  252.141127] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.163249] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 585
+[  252.163269] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.174113] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 586
+[  252.174135] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.185127] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 587
+[  252.185149] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.206840] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 588
+[  252.206861] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.217828] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 589
+[  252.217850] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.239954] evbug: Event. Dev: input1, Type: 3, Code: 53, Value: 590
+[  252.239970] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  252.261788] evbug: Event. Dev: input1, Type: 3, Code: 57, Value: -1
+[  252.261805] evbug: Event. Dev: input1, Type: 1, Code: 330, Value: 0
+[  252.261813] evbug: Event. Dev: input1, Type: 0, Code: 0, Value: 0
+[  255.284441] evbug: Event. Dev: input0, Type: 1, Code: 116, Value: 1
+[  255.284481] evbug: Event. Dev: input0, Type: 0, Code: 0, Value: 0
+[  255.354429] evbug: Event. Dev: input0, Type: 1, Code: 116, Value: 0
+[  255.354472] evbug: Event. Dev: input0, Type: 0, Code: 0, Value: 0
+[  261.294432] evbug: Event. Dev: input0, Type: 1, Code: 116, Value: 1
+[  261.294472] evbug: Event. Dev: input0, Type: 0, Code: 0, Value: 0
+[  261.434423] evbug: Event. Dev: input0, Type: 1, Code: 116, Value: 0
+[  261.434465] evbug: Event. Dev: input0, Type: 0, Code: 0, Value: 0
+[  276.889224] key 110 1
+[  277.075677] key 110 0
+[  281.212064] key 129 1
+[  281.415332] key 129 0
+[  295.925872] RTL871X: RTW_ADAPTIVITY_EN_
+[  295.925896] AUTO, chplan:0x20, Regulation:3,3
+[  295.925906] RTL871X: RTW_ADAPTIVITY_MODE_
+[  295.925911] NORMAL
+[  298.765103] RTL871X: nolinked power save leave
+[  304.779492] RTL871X: nolinked power save enter
