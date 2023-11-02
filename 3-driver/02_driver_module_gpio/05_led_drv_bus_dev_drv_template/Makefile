@@ -6,7 +6,6 @@
 # 2.3 PATH,          比如: export PATH=$PATH:/home/book/100ask_roc-rk3399-pc/ToolChain-6.3.1/gcc-linaro-6.3.1-2017.05-x86_64_aarch64-linux-gnu/bin 
 # 注意: 不同的开发板不同的编译器上述3个环境变量不一定相同,
 #       请参考各开发板的高级用户使用手册
-
 KERN_DIR = /home/book/100ask_imx6ull-sdk/Linux-4.9.88
 
 all:
@@ -23,6 +22,7 @@ clean:
 # ab-y := a.o b.o
 # obj-m += ab.o
 
-# leddrv.c board_demo.c 编译成 100ask.ko
-100ask_led-y := leddrv.o chip_demo_gpio.o board_A_led.o
-obj-m	+= 100ask_led.o
+
+
+obj-m += leddrv.o chip_demo_gpio_opr.o board_A_led_resource.o
+

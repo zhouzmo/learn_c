@@ -17,7 +17,7 @@
 #include "led_opr.h"
 
 static int board_demo_led_init (int which) /* 初始化LED, which-哪个LED */	   
-{
+{2
 	
 	printk("%s %s line %d, led %d\n", __FILE__, __FUNCTION__, __LINE__, which);
 	return 0;

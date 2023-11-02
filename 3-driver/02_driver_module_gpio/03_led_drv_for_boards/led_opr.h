@@ -1,6 +1,8 @@
 #ifndef _LED_OPR_H
 #define _LED_OPR_H
 
+
+// 对 gpio 设备，可以分离出初始化操作、写入操作、读操作
 struct led_operations {
 	int num;
 	int (*init) (int which); /* 初始化LED, which-哪个LED */       
