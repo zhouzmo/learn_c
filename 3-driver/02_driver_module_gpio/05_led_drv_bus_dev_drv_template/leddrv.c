@@ -18,7 +18,6 @@
 #include "led_opr.h"
 
 
-/* 1. 确定主设备号                                                                 */
 static int major = 0;
 static struct class *led_class;
 struct led_operations *p_led_opr;
@@ -46,14 +45,12 @@ EXPORT_SYMBOL(register_led_operations);
 
 
 
-/* 3. 实现对应的open/read/write等函数，填入file_operations结构体                   */
 static ssize_t led_drv_read (struct file *file, char __user *buf, size_t size, loff_t *offset)
 {
 	printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
 	return 0;
 }
 
-/* write(fd, &val, 1); */
 static ssize_t led_drv_write (struct file *file, const char __user *buf, size_t size, loff_t *offset)
 {
 	int err;
@@ -87,7 +84,7 @@ static int led_drv_close (struct inode *node, struct file *file)
 	return 0;
 }
 
-/* 2. 定义自己的file_operations结构体                                              */
+/*# 4、构造 file_operations ,实现内部函数指针 #*/
 static struct file_operations led_drv = {
 	.owner	 = THIS_MODULE,
 	.open    = led_drv_open,
@@ -96,8 +93,6 @@ static struct file_operations led_drv = {
 	.release = led_drv_close,
 };
 
-/* 4. 把file_operations结构体告诉内核：注册驱动程序                                */
-/* 5. 谁来注册驱动程序啊？得有一个入口函数：安装驱动程序时，就会去调用这个入口函数 */
 static int __init led_init(void)
 {
 	int err;
@@ -117,7 +112,6 @@ static int __init led_init(void)
 	return 0;
 }
 
-/* 6. 有入口函数就应该有出口函数：卸载驱动程序时，就会去调用这个出口函数           */
 static void __exit led_exit(void)
 {
 	printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
@@ -127,8 +121,7 @@ static void __exit led_exit(void)
 }
 
 
-/* 7. 其他完善：提供设备信息，自动创建设备节点                                     */
-
+/*# 5、声明驱动的装载/卸载函数，在内部实现对 file_operations 的注册/卸载操作，以及类\设备节点的创建 #*/
 module_init(led_init);
 module_exit(led_exit);
 

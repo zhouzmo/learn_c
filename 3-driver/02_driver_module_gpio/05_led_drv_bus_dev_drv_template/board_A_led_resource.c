@@ -37,7 +37,7 @@ static struct resource resources[] = {
         },
 };
 
-
+/*# 2、构造 platform_device 结构体，设置 name、resource 用于匹配和设置硬件资源#*/
 static struct platform_device board_A_led_dev = {
         .name = "100ask_led",
         .num_resources = ARRAY_SIZE(resources),

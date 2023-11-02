@@ -97,6 +97,8 @@ struct led_operations *get_board_led_opr(void)
     return &board_demo_led_opr;
 }
 
+
+
 static int chip_demo_gpio_probe(struct platform_device *pdev)
 {
     struct resource *res;
@@ -134,7 +136,7 @@ static int chip_demo_gpio_remove(struct platform_device *pdev)
     return 0;
 }
 
-
+/*# 1、构造 platform_driver 结构体，实现 probe、remove函数，设置 driver.name 用于匹配#*/
 static struct platform_driver chip_demo_gpio_driver = {
     .probe      = chip_demo_gpio_probe,
     .remove     = chip_demo_gpio_remove,
@@ -158,6 +160,7 @@ static void __exit lchip_demo_gpio_drv_exit(void)
     platform_driver_unregister(&chip_demo_gpio_driver);
 }
 
+/*# 3、分别声明驱动的装载/卸载函数 ，在其内部实现 platform_driver/platform_device 的注册/卸载#*/
 module_init(chip_demo_gpio_drv_init);
 module_exit(lchip_demo_gpio_drv_exit);
 
