@@ -1,11 +1,11 @@
-#include "LinkList.h"
+#include "linkList.h"
 
 int max_fd = 0;
 int acceptfd = 0;
 int ret = 0;
 int i = 0;
 int nbytes = 0;
-char buff[N] = { 0 };
+char buff[1024] = { 0 };
 int loop = 0;
 char send_buf[128] = { 0 };
 //创建要监视的文件描述集合
@@ -166,7 +166,8 @@ int main(int argc, const char* argv[])
                     //组装应答
                     if (usr->sayHi == 7) {
                         memset(send_buf, 0, sizeof(send_buf));
-                        sprintf(send_buf, "用户[%s]:%s\n", usr->name, buff);
+                        snprintf(send_buf, sizeof(send_buf), "用户[%s]:%s\n", usr->name, buff);
+
                     } else { //只有第一次才会对所有已经加入群聊的用户显示**加入群聊
                         memset(send_buf, 0, sizeof(send_buf));
                         sprintf(send_buf, "用户[%s]加入群聊..\n", usr->name);
