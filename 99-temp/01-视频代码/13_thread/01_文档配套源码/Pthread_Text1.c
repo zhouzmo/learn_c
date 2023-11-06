@@ -7,6 +7,3 @@ int main()
 	printf("tid = %lu\n",(unsigned long)tid);
 	return 0;
 }
-/*
-tid = 1
-*/
