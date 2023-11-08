@@ -36,6 +36,7 @@ static const struct of_device_id ask100_gpios[] = {
     { },
 };
 
+/*==4、实现中断函数,处理中断事件 ==*/
 static irqreturn_t gpio_key_irq_100ask(int irq, void *dev_id)
 {
 	struct gpio_key *gpio_key = dev_id;
@@ -68,8 +69,7 @@ static int chip_demo_gpio_probe(struct platform_device *pdev)
 		gpio_keys[i].gpio = gpio;
 		gpio_keys[i].irq  = irq;
 		gpio_keys[i].flag = flags;
-		
-		//  注册中断处理函数 handler
+		/*==3、probe函数内，获取设备树定义中断资源，注册中断函数 ==*/
 		err = request_irq(irq, gpio_key_irq_100ask, IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING, "100ask_gpio_key", &gpio_keys[i]);
 	}
 
@@ -92,7 +92,7 @@ static int chip_demo_gpio_remove(struct platform_device *pdev)
 }
 
 
-/* 1. 定义platform_driver */
+/*==1、定义 platform_driver，of_match_table ==*/
 static struct platform_driver test_gpio_drv = {
     .probe      = chip_demo_gpio_probe,
     .remove     = chip_demo_gpio_remove,
@@ -102,7 +102,7 @@ static struct platform_driver test_gpio_drv = {
     },
 };
 
-
+/*==2、实现module_init/exit函数，在内部实现platform_driver_register，匹配成功后调用drv.probe()  ==*/
 static int test_gpio_drv_init(void)
 {
 	platform_driver_register(&test_gpio_drv);
