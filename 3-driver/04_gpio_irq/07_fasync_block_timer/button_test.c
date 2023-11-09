@@ -10,10 +10,7 @@
 
 static int fd;
 
-/*
- * ./button_test /dev/100ask_button0
- *
- */
+
 int main(int argc, char **argv)
 {
 	int val;
@@ -65,3 +62,41 @@ int main(int argc, char **argv)
 }
 
 
+/*
+$ insmod gpio_key_drv.ko
+$ ./button_test /dev/100ask_gpio_key
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+get button: -1
+
+
+#  连续出现 11，说明有 0 值被驱动误认为 抖动
+get button: 0x6e00
+get button: 0x6e01
+get button: 0x6e01
+get button: 0x6e01
+get button: 0x6e00
+get button: 0x6e01
+get button: 0x6e00
+get button: 0x6e01
+get button: 0x6e00
+get button: 0x6e01
+get button: 0x6e01
+get button: 0x8100
+get button: 0x8101
+get button: 0x6e00
+get button: 0x8100
+get button: 0x6e01
+get button: 0x8101
+
+
+
+
+*/

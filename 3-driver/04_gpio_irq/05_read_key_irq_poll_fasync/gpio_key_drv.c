@@ -77,9 +77,10 @@ static int get_key(void)
 }
 
 
+
 static DECLARE_WAIT_QUEUE_HEAD(gpio_key_wait);
 
-/* 实现对应的open/read/write等函数，填入file_operations结构体                   */
+/*== 5、在.read 函数指针内部实现，等待数据`wait_event_interruptible`，若无数据，休眠  ==*/
 static ssize_t gpio_key_drv_read (struct file *file, char __user *buf, size_t size, loff_t *offset)
 {
 	//printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
@@ -93,6 +94,7 @@ static ssize_t gpio_key_drv_read (struct file *file, char __user *buf, size_t si
 	return 4;
 }
 
+/*== 7、在.poll 函数指针内部实现，等待数据 `poll_wait`，将事件放入wq  ==*/
 static unsigned int gpio_key_drv_poll(struct file *fp, poll_table * wait)
 {
 	printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
@@ -100,8 +102,35 @@ static unsigned int gpio_key_drv_poll(struct file *fp, poll_table * wait)
 	return is_key_buf_empty() ? 0 : POLLIN | POLLRDNORM;
 }
 
+/*== 8、在.fasync 函数指针内部实现，当 file 的 FASYNC 位发生变化时
+	该函数会变调用，检查标志位  ==*/
+// fcntl(fd, F_SETFL, flags | FASYNC);  
+// 如果 FASYNC 被设置，int on 将被设置为非零值，允许进程注册对文件的异步通知。
 static int gpio_key_drv_fasync(int fd, struct file *file, int on)
 {
+
+	/*
+	int fasync_helper(int fd, struct file *file, int on, struct fasync_struct **fapp);
+
+	参数：
+	- `fd`：表示文件描述符，用于标识要进行异步通知管理的文件。
+	- `file`：指向表示文件的结构体的指针。
+	- `on`：一个整数标志，指示是否要开启（非零值）或关闭（零值）异步通知。
+	- `fapp`：一个指向指针的指针，用于接收指向 fasync_struct 结构体的指针，该结构体用于管理异步通知。
+
+	作用：
+	- `fasync_helper` 函数用于管理文件的异步通知。
+	当 `on` 参数为非零值时，它允许进程注册对文件的异步通知，
+	而当 `on` 参数为零值时，它取消之前的异步通知注册。
+	这样，当文件状态发生变化时，内核将通知已注册的进程，而无需进程轮询文件状态。
+	这对于需要实时响应文件状态变化的应用程序非常有用。
+
+	当函数成功执行时，返回值大于等于 0，表示操作成功。
+	当函数执行失败时，返回值小于 0，表示操作失败，通常会返回 -EIO。
+
+	这个函数通常用于驱动程序中，以便允许用户空间进程注册对设备文件的异步通知。
+	*/
+	// 检查设置 flags 是否成功
 	if (fasync_helper(fd, file, on, &button_fasync) >= 0)
 		return 0;
 	else
@@ -109,7 +138,7 @@ static int gpio_key_drv_fasync(int fd, struct file *file, int on)
 }
 
 
-/* 定义自己的file_operations结构体                                              */
+/*== 1、实现 file_operations 结构体的 read、poll 、fasync等函数，向 app 提供对应接口 ==*/
 static struct file_operations gpio_key_drv = {
 	.owner	 = THIS_MODULE,
 	.read    = gpio_key_drv_read,
@@ -118,6 +147,9 @@ static struct file_operations gpio_key_drv = {
 };
 
 
+/*== 6、在中断函数 handle 实现，硬件数据的获取，保存，
+等待队列的唤醒 `wake_up_interruptible`  
+sync 信号发送 kill_fasync ==*/
 static irqreturn_t gpio_key_isr(int irq, void *dev_id)
 {
 	struct gpio_key *gpio_key = dev_id;
@@ -136,10 +168,7 @@ static irqreturn_t gpio_key_isr(int irq, void *dev_id)
 	return IRQ_HANDLED;
 }
 
-/* 1. 从platform_device获得GPIO
- * 2. gpio=>irq
- * 3. request_irq
- */
+/*== 4、在.probe 函数指针内部实现，设备树信息的获取保存，中断的注册，类和设备的创建  ==*/
 static int gpio_key_probe(struct platform_device *pdev)
 {
 	int err;
@@ -218,7 +247,7 @@ static const struct of_device_id ask100_keys[] = {
     { },
 };
 
-/* 1. 定义platform_driver */
+/*== 2、构建 platform_driver 结构体的 probe,remove 等函数函数指针，定义driver.of_match_table 硬件适配信息 ==*/
 static struct platform_driver gpio_keys_driver = {
     .probe      = gpio_key_probe,
     .remove     = gpio_key_remove,
@@ -228,7 +257,7 @@ static struct platform_driver gpio_keys_driver = {
     },
 };
 
-/* 2. 在入口函数注册platform_driver */
+/*== 3、实现linux驱动框架的module_init/exit函数,调用 platform_driver_register，来匹配对应设备  ==*/
 static int __init gpio_key_init(void)
 {
     int err;
@@ -240,9 +269,7 @@ static int __init gpio_key_init(void)
 	return err;
 }
 
-/* 3. 有入口函数就应该有出口函数：卸载驱动程序时，就会去调用这个出口函数
- *     卸载platform_driver
- */
+
 static void __exit gpio_key_exit(void)
 {
 	printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);

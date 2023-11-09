@@ -35,6 +35,8 @@ $ insmod gpio_key_drv.ko
 # 按下按键，查看 dmesg
 $ dmesg |tail -n20
 
+sudo ifconfig ens38 192.168.5.11
+
 
 
 cd /mnt/learn_c/3-driver/0
