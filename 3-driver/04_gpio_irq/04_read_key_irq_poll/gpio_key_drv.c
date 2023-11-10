@@ -83,6 +83,7 @@ static ssize_t gpio_key_drv_read (struct file *file, char __user *buf, size_t si
 	int err;
 	int key;
 	
+	// 阻塞等待
 	wait_event_interruptible(gpio_key_wait, !is_key_buf_empty());
 	key = get_key();
 	err = copy_to_user(buf, &key, 4);
@@ -94,6 +95,7 @@ static ssize_t gpio_key_drv_read (struct file *file, char __user *buf, size_t si
 static unsigned int gpio_key_drv_poll(struct file *fp, poll_table * wait)
 {
 	printk("%s %s line %d\n", __FILE__, __FUNCTION__, __LINE__);
+	// 阻塞等待
 	poll_wait(fp, &gpio_key_wait, wait);
 	return is_key_buf_empty() ? 0 : POLLIN | POLLRDNORM;
 }

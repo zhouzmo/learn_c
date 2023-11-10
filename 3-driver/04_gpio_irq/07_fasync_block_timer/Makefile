@@ -7,7 +7,7 @@
 # 注意: 不同的开发板不同的编译器上述3个环境变量不一定相同,
 #       请参考各开发板的高级用户使用手册
 
-KERN_DIR =  # 板子所用内核源码的目录
+KERN_DIR = /home/book/100ask_imx6ull-sdk/Linux-4.9.88
 
 all:
 	make -C $(KERN_DIR) M=`pwd` modules 
@@ -20,7 +20,6 @@ clean:
 # 要想把a.c, b.c编译成ab.ko, 可以这样指定:
 # ab-y := a.o b.o
 # obj-m += ab.o
-
 
 
 obj-m += gpio_key_drv.o
