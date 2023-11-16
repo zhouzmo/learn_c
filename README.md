@@ -9,6 +9,7 @@ echo 1       4       1      7 > /proc/sys/kernel/printk
 
 
 #### 删除指定文件
+linux 命令行下
 find . -type f -name "*.out" -exec rm {} \;
 find . -type f -name "*.exe" -exec rm {} \;
 
