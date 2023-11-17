@@ -44,9 +44,9 @@ gcc -shared -o libsub.so sub.o
 # 可以省略 lib**.so，但需需要指定 LIBRARY_PATH，或者拷贝到  LIBRARY_PATH中
 gcc -o test main.o -lsub 
 # 链接成功，但是无法运行，需要将库文件放到指定文件下
-gcc -o test_dynamic main.o  -L ./ -lsub
+gcc -o test_dynamic.out main.o  -L ./ -lsub
 
 # 新增库文件路径为当前路径，success
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:./
-./test_dynamic
+./test_dynamic.out
 */
