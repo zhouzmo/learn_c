@@ -37,13 +37,14 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    read(fd1, buf, 1);
-    read(fd2, buf2, 1);
+    read(fd1, buf, 1);       // h
+    read(fd2, buf2, 1);     // h
 
     printf("data get from fd1 : %c\n", buf[0]);
     printf("data get from fd2: %c\n", buf2[0]);
     
-    read(fd1_dup, buf, 1);
+    // 说明 fd1_dup 只是 fd1 的副本，对应一个相同的结构
+    read(fd1_dup, buf, 1);  // e 
     printf("data get from fd1_dup: %c\n", buf[0]);
     
     return 0;

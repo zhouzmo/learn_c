@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     如果新的文件描述符已经打开，它将首先被关闭
     ，然后 `dup2` 将原始文件描述符复制到新的文件描述符，允许您控制新文件描述符的值。
     */
-    dup2(fd, 1); //fd为老文件描述符 
+    dup2(fd, 1); //fd为老文件描述符 ，1为标准输出
 
     printf("hello, world\n");  /* 打印到fd=1的文件  fd=1在shell里面是标准输出  */
     return 0;
