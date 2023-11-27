@@ -65,7 +65,7 @@ int my_daemon(int nochdir, int noclose)
     // 当前目录不能被卸载，它作为守护进程的工作目录了
     if (nochdir != 0)
     {
-        chdir("/");
+        chdir("/");// 守护进程默认和一个应用程序启动 pwd 路径相关联
     }
 
     if (noclose != 0)
