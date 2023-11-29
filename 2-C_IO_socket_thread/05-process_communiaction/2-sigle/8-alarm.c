@@ -22,7 +22,7 @@ alarm()函数的返回值是上一次设置的定时器剩余的时间，即距�
 void handler(int num)
 {
 	printf("handler start num = %d..\n ", num);
-	
+
 	if (num == SIGALRM)
 	{
 		printf("pid = %d\trecv SIGALRM..\n ", getpid());
@@ -38,8 +38,7 @@ int main(int argc, char *argv[])
 		perror("signal");
 	}
 
-
-alarm(1);
+	alarm(1);
 
 	while (1)
 	{

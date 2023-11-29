@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 	if (pid == 0)
 	{ // 子进程
 		pid = getpid();
-		// kill(pid, SIGUSR1); // 父进程发送信号
+		// kill(pid, SIGUSR1); // 发送信号
 		// kill(0, SIGUSR1);	// 进程组发送信号
 		killpg(getpgrp(), SIGUSR1);	// 进程组发送信号
 		exit(0);
