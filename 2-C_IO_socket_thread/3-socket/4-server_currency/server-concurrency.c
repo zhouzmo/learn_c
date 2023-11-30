@@ -56,31 +56,36 @@ int main(int argc, char const *argv[])
 
     while (1)
     {
+        printf("accept 阻塞等待 pid=%d\n", getpid());
 
         // 返回一个新的连接 已完成连接的 client socket
         ci_sk_fd = accept(sv_sk_fd, (struct sockaddr *)&ci_addr, &addrlen);
         ERROR_Cache(ci_sk_fd);
-        printf("client 信息 :%s:%u，连接成功\n", inet_ntoa(ci_addr.sin_addr), ntohs(ci_addr.sin_port));
+        unsigned short ci_port;
+        char *ci_ipaddr;
+        ci_port = ntohs(ci_addr.sin_port);
+        ci_ipaddr = inet_ntoa(ci_addr.sin_addr);
+        printf("client :%s:%u，连接成功\n", ci_ipaddr, ci_port);
 
         // 来一个客户端，创建一个子进程
         pid = fork();
         if (pid == 0)
         {
-            close(sv_sk_fd); // 子进程不需要监听
+            // 子进程保持客户端连接的同时，
+            close(sv_sk_fd); // 子进程不需要监听，关闭节省文件描述符资源
             printf("pid:%d child process ....\n", getpid());
             while (1)
             {
                 memset(recv_buf, 0, sizeof(recv_buf));
-                ret = read(ci_sk_fd, recv_buf, sizeof(recv_buf));
+                ret = read(ci_sk_fd, recv_buf, sizeof(recv_buf)); // 阻塞读，直到有数据
                 if (ret == 0)
                 {
                     // 如果在读的过程中，对方已经关闭，tcp\ip 协议会返回要给 0 数据包
-                    printf("对方已经关闭\n");
+                    printf("client  :%s:%u，已经关闭\n", ci_ipaddr, ci_port);
                     exit(0);
                 }
                 ERROR_Cache(ret);
-
-                printf("pid:%d client：", getpid());
+                printf("pid:%d client  :%s:%u 消息：", getpid(), ci_ipaddr, ci_port);
                 fputs(recv_buf, stdout);
                 // 服务器端收到数据，打印到屏幕
                 write(ci_sk_fd, recv_buf, ret); // 服务器端发送数据
@@ -109,6 +114,13 @@ tcp        0      0 127.0.0.1:8888          127.0.0.1:46666         ESTABLISHED
 tcp        0      0 127.0.0.1:8888          127.0.0.1:46664         ESTABLISHED
 tcp        0      0 127.0.0.1:46664         127.0.0.1:8888          ESTABLISHED
 
-vvvxs
-vvv'x's
+*/
+
+/*
+子进程为何需要  close(sv_sk_fd); 父进程 close(ci_sk_fd);
+关闭不需要的套接字描述符有助于释放系统资源，
+并且可以避免在多进程环境下可能出现的意外行为。
+
+需要注意的是，关闭套接字描述符并不会影响其他进程或线程对其的访问，
+因为每个进程都有自己独立的文件描述符表。
 */

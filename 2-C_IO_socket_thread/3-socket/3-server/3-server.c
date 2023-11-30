@@ -50,6 +50,7 @@ int main(int argc, char const *argv[])
     // listen 有 2个队列，完成连接队列，和未完成队列
     ret = listen(sv_sk_fd, SOMAXCONN);
     ERROR_Cache(ret);
+    printf("server listen %d 成功\n", SOMAXCONN);
 
     // 返回一个新的连接 已完成连接的 client socket
     ci_sk_fd = accept(sv_sk_fd, (struct sockaddr *)&ci_addr, &addrlen);
