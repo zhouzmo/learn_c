@@ -9,11 +9,11 @@ all: $(SERVER_OUT) $(CLIENT_OUT)
 
 # 编译生成服务器可执行文件
 $(SERVER_OUT): $(SERVER_SRC)
-	gcc -o $(SERVER_OUT) $(SERVER_SRC)
+	gcc -g -o $(SERVER_OUT) $(SERVER_SRC)
 
 # 编译生成客户端可执行文件
 $(CLIENT_OUT): $(CLIENT_SRC)
-	gcc -o $(CLIENT_OUT) $(CLIENT_SRC)
+	gcc -g -o  $(CLIENT_OUT) $(CLIENT_SRC)
 
 # 清理生成的可执行文件
 clean:

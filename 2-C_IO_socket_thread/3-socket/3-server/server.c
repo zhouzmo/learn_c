@@ -18,11 +18,9 @@
         }                    \
     } while (0)
 
-/*
-
-*/
 int main(int argc, char const *argv[])
 {
+
     int ret;
     int sv_sk_fd, ci_sk_fd;
     struct sockaddr_in sv_addr, ci_addr; // tcp/ip 地址结构
@@ -41,9 +39,9 @@ int main(int argc, char const *argv[])
     ret = bind(sv_sk_fd, (struct sockaddr *)&sv_addr, addrlen);
     ERROR_Cache(ret);
 
-    // 设置 socket 支持地址复用
+    // 设置 socket 支持地址复用 SO_REUSEADDR SO_REUSEPORT
     int optval = 1;
-    ret = setsockopt(sv_sk_fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+    ret = setsockopt(sv_sk_fd, SOL_SOCKET, SO_REUSEPORT , &optval, sizeof(optval));
     ERROR_Cache(ret);
 
     // 一旦调用 listen ,这个套接字将变为被动套接字，只能接受连接，不能主动的发送连接
@@ -68,7 +66,8 @@ int main(int argc, char const *argv[])
         {
             // 如果在读的过程中，对方已经关闭，tcp\ip 协议会返回要给 0 数据包
             printf("对方已经关闭\n");
-            exit(0);
+            break;
+            ;
         }
         ERROR_Cache(ret);
 
@@ -76,14 +75,20 @@ int main(int argc, char const *argv[])
         fputs(recv_buf, stdout);
         // 服务器端收到数据，打印到屏幕
         write(ci_sk_fd, recv_buf, ret); // 服务器端发送数据
+        if (!strcmp("server close\n", recv_buf))
+        {
+            break;
+        }
 
         memset(recv_buf, 0, sizeof(recv_buf));
     }
+    close(ci_sk_fd);
     return 0;
 }
 
 /*
 复现失败  我的是FIN_WAIT2 不是 TIME_WAIT
+复现失败  我的是 TIME_WAIT 也不行，？？？？
 open server
 open client
 close server
