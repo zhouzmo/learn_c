@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 /*
-
+sigqueue
 发送带参数的信号
 */
 
