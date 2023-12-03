@@ -22,6 +22,23 @@
         exit(EXIT_FAILURE); \
     } while (0)
 
+#define MAX_BUFFER_SIZE 1024
+
+// #define LOG_OPEN
+
+#ifdef LOG_OPEN
+#define LOGGER(...)                                            \
+    do                                                         \
+    {                                                          \
+        printf("%s:%s:%d ", __FILE__, __FUNCTION__, __LINE__); \
+        printf(__VA_ARGS__);                                   \
+        printf("\n");                                          \
+    } while (0)
+#else
+#define LOGGER(...)
+#endif
+//  使用方法：LOGGER("The value of x is %d", x);
+
 typedef struct IpAndPort
 {
     char *ipaddr;
@@ -31,7 +48,7 @@ typedef struct IpAndPort
 typedef struct dataPacket
 {
     int len;
-    char buf[1024];
+    char buf[MAX_BUFFER_SIZE];
 } DataPacket, *DataPacketP;
 
 void activate_nonblock(int fd);

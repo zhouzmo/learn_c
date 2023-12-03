@@ -306,6 +306,7 @@ ssize_t readn(int fd, void *buf, size_t count)
  */
 ssize_t writen(int fd, const void *buf, size_t count)
 {
+    LOGGER(" ");
     size_t nleft = count;
     ssize_t nwritten;
     const char *bufptr = (const char *)buf;
@@ -314,6 +315,7 @@ ssize_t writen(int fd, const void *buf, size_t count)
     {
         if ((nwritten = write(fd, bufptr, nleft)) < 0)
         {
+            LOGGER(" ");
             if (errno == EINTR)
             {
                 continue;
@@ -322,7 +324,7 @@ ssize_t writen(int fd, const void *buf, size_t count)
         }
         else if (nwritten == 0) // 没有数据写入
         {
-
+            LOGGER(" ");
             // continue;
             //
             // return 0; // 没有写入任何字节
@@ -333,9 +335,13 @@ ssize_t writen(int fd, const void *buf, size_t count)
             else
                 break; // 部分数据已写入，终止循环
         }
+        LOGGER("nwritten=%zu ", nwritten);
         nleft -= nwritten;
         bufptr += nwritten;
+        LOGGER("count=%zu,nleft=%zu", count, nleft);
     }
+    LOGGER("count=%zu,nleft=%zu", count, nleft);
+
     return count - nleft; // 成功写入的字节数
 }
 
@@ -448,6 +454,7 @@ int client_init(IpAndPort info, void **handle)
     }
 
     *handle = (void *)(intptr_t)sockfd;
+    printf("log::%s, %s:%d connetct success", __FUNCTION__, info.ipaddr, info.port);
     return 0;
 }
 
@@ -462,6 +469,8 @@ int client_init(IpAndPort info, void **handle)
  */
 int pack_send(void *handle, unsigned char *data, int datalen)
 {
+    LOGGER("argv=%s,len=%d", data, datalen);
+
     int sockfd = (intptr_t)handle;
     // 给数据头部加上4字节，用于表示 data 的字节数
     DataPacket pdata;
@@ -475,6 +484,8 @@ int pack_send(void *handle, unsigned char *data, int datalen)
         perror("send");
         return -1;
     }
+    LOGGER("ret:%d,datalen=%d", ret, datalen);
+
     return 0;
 }
 
@@ -489,10 +500,13 @@ int pack_send(void *handle, unsigned char *data, int datalen)
  */
 int pack_recv(void *handle, unsigned char *out, int *outlen)
 {
+    LOGGER("start");
     int sockfd = (intptr_t)handle;
     DataPacket pdata;
     int ret;
     int len;
+    LOGGER("fd=%d", sockfd);
+
     // 先读 4 字节，获取对方发送内容的 data 字节数
     ret = readn(sockfd, &pdata.len, 4);
     if (ret == -1)
@@ -507,9 +521,9 @@ int pack_recv(void *handle, unsigned char *out, int *outlen)
     }
 
     len = ntohl(pdata.len);
+    LOGGER("get 4 head success,head:len=%d", len);
 
     ret = readn(sockfd, pdata.buf, len);
-
     if (ret == -1)
     {
 
@@ -521,8 +535,9 @@ int pack_recv(void *handle, unsigned char *out, int *outlen)
         printf("ret < len,发送拆包，丢弃重读\n");
         return -1;
     }
+    LOGGER("get data success,head:len=%d,data=%s", len, pdata.buf);
     memcpy(out, pdata.buf, len);
-    /* 
+    /*
     outlen 只是一个临时变量，是一个地址符，0x11111
     outlen = &len,只是修改了这个地址的值
     应该修改内存的值
@@ -531,5 +546,7 @@ int pack_recv(void *handle, unsigned char *out, int *outlen)
 
     */
     *outlen = len;
+    LOGGER("return ,outlen=%d,data=%s", *outlen, out);
+
     return 0;
 }

@@ -56,7 +56,7 @@ int main(void)
 
     struct sockaddr_in peeraddr;
     socklen_t peerlen;
-    int conn;
+    intptr_t conn;
 
     while (1)
     {
@@ -91,7 +91,8 @@ int main(void)
                 if (ret == 0) // 指定时间内有读事件发生
                 {
 
-                    flag = pack_recv(conn, recvbuf, &datalen);
+                    flag = pack_recv((void *)conn, recvbuf, &datalen);
+                    LOGGER("flag=%d", flag);
 
                     if (flag < 0)
                     {
@@ -101,7 +102,7 @@ int main(void)
                 }
                 else if (ret == -1 && errno == ETIMEDOUT)
                 {
-                    printf("读超时\n");
+                    printf("读超时..\t");
                     continue;
                 }
                 else
@@ -111,13 +112,15 @@ int main(void)
 
                 // 在这里可以对接收到的数据进行处理,打印
                 // printf("ip=%s port=%d client msg:", ipaddr, prot);
-                printf("log：recvbuf.len=%d,recvbuf.buf=%s\n", datalen, recvbuf);
+                LOGGER("pack_recv(size %d)  success: %s  \n", datalen, recvbuf);
+                printf("recv client msg (size %d)  success: %s  \n", datalen, recvbuf);
                 int wtlen;
+
 
                 ret = write_timeout(conn, wait_seconds);
                 if (ret == 0)
                 {
-                    flag = pack_send(conn, recvbuf, datalen);
+                    flag = pack_send((void *)conn, recvbuf, datalen);
                     if (flag < 0)
                     {
                         printf("客户端对方已经关闭\n");
@@ -125,7 +128,7 @@ int main(void)
                     }
                     else if (flag == 0)
                     {
-                        printf("writen:%s (size %d) flag=%d\n", recvbuf, datalen, flag);
+                        LOGGER("pack_send(size %d)  success: %s  \n", datalen, recvbuf);
                     }
                 }
                 else if (ret == -1 && errno == ETIMEDOUT)
@@ -137,6 +140,8 @@ int main(void)
                 {
                     ERR_EXIT("write_timeout error");
                 }
+                LOGGER("pack_send(size %d)  success: %s  \n", datalen, recvbuf);
+                printf("send client msg(size %d)  success: %s  \n", datalen, recvbuf);
             }
             close(conn);
             exit(EXIT_SUCCESS);
