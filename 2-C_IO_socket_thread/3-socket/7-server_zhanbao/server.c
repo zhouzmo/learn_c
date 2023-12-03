@@ -67,7 +67,6 @@ ssize_t readn(int fd, void *buf, size_t count)
     return count;
 }
 
-// 向套接字中写入指定长度的数据，写不够不返回
 ssize_t writen(int fd, const void *buf, size_t count)
 {
     size_t needNum = count;

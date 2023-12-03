@@ -1,6 +1,6 @@
 
 
-#### 挂载跟文件系统脚本
+# 挂载跟文件系统脚本
 #!/bin/bash
 mount -t nfs -o nolock,vers=3 192.168.5.11:/home/book /mnt
 echo 1       4       1      7 > /proc/sys/kernel/printk
@@ -8,7 +8,7 @@ echo 1       4       1      7 > /proc/sys/kernel/printk
 
 
 
-#### 删除指定文件
+# 删除指定文件
 linux 命令行下
 find . -type f -name "*.out" -exec rm {} \;
 find . -type f -name "*.exe" -exec rm {} \;
@@ -42,3 +42,20 @@ sudo ifconfig ens38 192.168.5.11
 
 cd /mnt/learn_c/3-driver/0
 cd /home/book/learn_c/3-driver/0
+
+# 挂载跟文件系统脚本
+# 网络
+watch -n 0.1 -d  'netstat -na | grep 8888'
+
+# 统计数量
+netstat -n|awk '/^tcp/{++S[$NF]}END{for (key in S) print key,S[key]}'  
+
+watch -n 0.1 -d  'netstat -na | grep 8888'
+watch -n 0.1 -d  'ps -ef | grep -E out'
+
+
+gdb -tui -q server.out
+
+
+
+  printf("%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);

@@ -93,10 +93,10 @@ int main()
         sendbuf.len = htonl(n);
         printf("1.控制台获取字节数：%d\n", n);
         int writenCount = writen(sock, &sendbuf, 4 + n);
-        printf("2.client send 4 + n byte data 字节数：%d\n", writenCount);
+        printf("2.客户端发送字节数 4 + %d 字节数：%d\n",n, writenCount);
+
 
         int ret = readn(sock, &recvbuf.len, 4);
-        printf("6.client read 4  字节数%d\n", ret);
         if (ret == -1)
             ERR_EXIT("read");
         else if (ret < 4)
@@ -104,10 +104,10 @@ int main()
             printf("client closed\n");
             break;
         }
-
         n = ntohl(recvbuf.len);
+        printf("6.先读 4 字节，获取服务端发送的 data.len=%d,读到了%d\n", n, ret);
+
         ret = readn(sock, recvbuf.buf, n);
-        printf("readn buf success 字节数：%d\n", ret);
         if (ret == -1)
             ERR_EXIT("read");
         else if (ret < n)
@@ -115,8 +115,7 @@ int main()
             printf("client closed\n");
             break;
         }
-        printf("6.client read len 字节数%d\n", ret);
-        fputs(recvbuf.buf, stdout);
+        printf("7.获取服务端数据成功 data.len=%d,data.buf：%s\n", n, recvbuf.buf);
 
         memset(&sendbuf, 0, sizeof(sendbuf));
         memset(&recvbuf, 0, sizeof(recvbuf));

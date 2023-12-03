@@ -41,7 +41,8 @@ int main(int argc, char const *argv[])
 
     // 设置 socket 支持地址复用 SO_REUSEADDR SO_REUSEPORT
     int optval = 1;
-    ret = setsockopt(sv_sk_fd, SOL_SOCKET, SO_REUSEPORT , &optval, sizeof(optval));
+    ret = setsockopt(sv_sk_fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+    ret = setsockopt(sv_sk_fd, SOL_SOCKET, SO_REUSEPORT, &optval, sizeof(optval));
     ERROR_Cache(ret);
 
     // 一旦调用 listen ,这个套接字将变为被动套接字，只能接受连接，不能主动的发送连接
@@ -95,7 +96,8 @@ close server
 再次运行，服务端表示端口被占用
 需要设置地址复用
 允许套接字绑定到一个处于 TIME_WAIT 状态的地址和端口。
-这对于服务器在关闭后立即重新启动很有用，因为不需要等待 TIME_WAIT 状态的套接字释放。
+这对于服务器在关闭后立即重新启动很有用，
+因为不需要等待 TIME_WAIT 状态的套接字释放。
 $ netstat -na |grep 8888
 tcp        1      0 127.0.0.1:36782         127.0.0.1:8888          CLOSE_WAIT
 tcp        0      0 127.0.0.1:8888          127.0.0.1:36782         FIN_WAIT2

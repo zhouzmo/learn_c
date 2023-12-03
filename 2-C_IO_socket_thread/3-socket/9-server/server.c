@@ -24,23 +24,18 @@ close client
 
 */
 
+struct packet
+{
+    int len;
+    char buf[1024];
+};
+
 #define ERR_EXIT(m)         \
     do                      \
     {                       \
         perror(m);          \
         exit(EXIT_FAILURE); \
     } while (0)
-
-ssize_t recv_peek(int sockfd, void *buf, size_t len)
-{
-    while (1)
-    {
-        int ret = recv(sockfd, buf, len, MSG_PEEK);
-        if (ret == -1 && errno == EINTR)
-            continue;
-        return ret;
-    }
-}
 
 // 从套接字中读取指定长度的数据，读不够不返回
 ssize_t readn(int fd, void *buf, size_t count)
@@ -66,55 +61,6 @@ ssize_t readn(int fd, void *buf, size_t count)
         needNum -= readed; // 需要读的字节数 - 已经读的字节数
     }
     return count;
-}
-
-ssize_t readline(int sockfd, void *buf, size_t maxline)
-{
-    int ret;
-    int nread;
-    char *bufp = buf;
-    int nleft = maxline;
-
-    while (1)
-    {
-        // 看一下缓冲区有没有数据，并不移除内核缓冲区数据
-        ret = recv_peek(sockfd, bufp, nleft);
-        if (ret < 0)
-        { // 失败
-            return ret;
-        }
-        else if (ret == 0)
-        { // 对方已关闭
-            return ret;
-        }
-
-        nread = ret;
-        int i;
-        for (i = 0; i < nread; i++)
-        {
-            if (bufp[i] == '\n')
-            {                                     // 若缓冲区有换行符
-                ret = readn(sockfd, bufp, i + 1); // 读走数据
-                if (ret != i + 1)
-                {
-                    exit(EXIT_FAILURE);
-                }
-                return ret; // 有换行符就返回，并返回读走的数据
-            }
-        }
-
-        if (nread > nleft)
-        { // 如果读到的数据大于一行最大数，异常处理
-            exit(EXIT_FAILURE);
-        }
-
-        nleft -= nread; // 若缓冲区没有换行符，把剩余的数据读走
-        ret = readn(sockfd, bufp, nread);
-        if (ret != nread)
-        {
-            exit(EXIT_FAILURE);
-        }
-    }
 }
 
 // 向套接字中写入指定长度的数据，写不够不返回
@@ -143,27 +89,40 @@ ssize_t writen(int fd, const void *buf, size_t count)
 // 处理客户端请求
 void do_service(int conn)
 {
-    char recvbuf[1024];
+    struct packet recvbuf;
+    int retlen;
     while (1)
     {
         memset(&recvbuf, 0, sizeof(recvbuf));
 
-        int ret = readline(conn, recvbuf, 1024);
+        // 先检查长度
+        int ret = readn(conn, &recvbuf.len, 4);
         if (ret == -1)
+            ERR_EXIT("read");
+        else if (ret < 4)
         {
-            ERR_EXIT("readline");
-        }
-        else if (ret == 0)
-        {
-            printf("client close\n");
+            printf("client closed\n");
             break;
         }
 
-        // 将接收到的数据输出到标准输出
-        fputs(recvbuf, stdout);
+        // 根据获得的字节长度，读指定的字节
+        retlen = ntohl(recvbuf.len);
+        printf("3.先读 4 字节，获取客户端发送的recvbuf.len=%d,继续读%d\n", retlen, retlen);
 
-        // 回写数据给客户端
-        writen(conn, &recvbuf, ret);
+        ret = readn(conn, &recvbuf.buf, retlen);
+        printf("4.成功读到了%d字节，内容：%s\n", ret, recvbuf.buf);
+        if (ret == -1)
+            ERR_EXIT("read");
+        else if (ret < retlen)
+        {
+            printf("client closed\n");
+            break;
+        }
+
+        // 输出到命令行，回写
+        printf("5.将数据重新发回客户端recvbuf.len=%d,recvbuf.buf=%s\n", retlen, recvbuf.buf);
+
+        write(conn, &recvbuf, retlen + 4);
     }
 
     close(conn);
