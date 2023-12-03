@@ -6,14 +6,20 @@
 #include <string.h>
 #include <unistd.h>
 
+/*
+ssize_t write(int fd, const void *buf, size_t count);
+    fd：文件描述符，用于指定要写入的文件。
+    buf：指向要写入的数据的缓冲区。
+    count：要写入的字节数。
 
+*/
 
 int main(int argc, char **argv)
 {
     int fd;
     int i;
     int len;
-    
+
     if (argc < 3)
     {
         printf("Usage: %s <file> <string1> <string2> ...\n", argv[0]);

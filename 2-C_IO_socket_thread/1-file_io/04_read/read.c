@@ -6,7 +6,13 @@
 #include <string.h>
 #include <unistd.h>
 
+/*
+ssize_t read(int fd, void *buf, size_t count);
+    fd：文件描述符，用于指定要读取的文件。
+    buf：指向要读取数据存储的缓冲区。
+    count：要读取的字节数。
 
+*/
 
 int main(int argc, char **argv)
 {
@@ -14,7 +20,7 @@ int main(int argc, char **argv)
     int i;
     int len;
     unsigned char buf[100];
-    
+
     if (argc != 2)
     {
         printf("Usage: %s <file>\n", argv[0]);
@@ -37,7 +43,7 @@ int main(int argc, char **argv)
     /* 读文件/打印 */
     while (1)
     {
-        len = read(fd, buf, sizeof(buf)-1);
+        len = read(fd, buf, sizeof(buf) - 1);
         if (len < 0)
         {
             perror("read");

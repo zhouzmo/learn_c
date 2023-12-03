@@ -30,30 +30,16 @@ int main(void)
     int stdineof = 0;
     int len;
     int ret;
-    // IpAndPort info;
-    // info.ipaddr = "127.0.0.1";
-    // info.port = 8888;
-    // void *handle;
-    // if (client_init(info, &handle) != 0)
-    // {
-    //     printf("Failed to initialize client.\n");
-    //     return -1;
-    // }
-    // sock = (intptr_t)handle;
-
+    IpAndPort info;
+    info.ipaddr = "127.0.0.1";
+    info.port = 8888;
+    void *handle;
+    if (client_init(info, &handle) != 0)
     {
-        if ((sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
-            ERR_EXIT("socket");
-
-        struct sockaddr_in servaddr;
-        memset(&servaddr, 0, sizeof(servaddr));
-        servaddr.sin_family = AF_INET;
-        servaddr.sin_port = htons(8888);
-        servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-        if (connect(sock, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0)
-            ERR_EXIT("connect");
+        printf("Failed to initialize client.\n");
+        return -1;
     }
+    sock = (intptr_t)handle;
 
     // 注意 初始化后再比较！！！！！！！！
     maxfd = fd_stdin > sock ? fd_stdin : sock;
