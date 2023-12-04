@@ -73,7 +73,7 @@ void renameAndSortFiles(const char *dirPath, const char *targetFile, const char 
 }
 
 int main() {
-    const char *dirPath = "/path/to/directory"; // 指定目录路径
+    const char *dirPath = "."; // 指定目录路径
     const char *targetFile = "07"; // 需要修改的文件名
     const char *newFile = "08"; // 修改后的文件名
 

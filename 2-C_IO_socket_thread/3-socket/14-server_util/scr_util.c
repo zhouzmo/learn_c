@@ -220,7 +220,18 @@ int connect_timeout(int fd, struct sockaddr_in *addr, unsigned int wait_seconds)
         /*
         对于非阻塞模式下的connect函数，它可能会立即返回，并在后台进行连接的建立过程。
         这是因为在非阻塞模式下，connect函数不会阻塞等待连接建立完成，而是立即返回。
-        连接的建立过程会在后台进行，而不会阻塞当前线程。
+        而不会阻塞当前线程。
+
+        tcp/ip 在客户端连接服务器的时候，如果异常
+        connect 在 fd 阻塞的情况下，返回时间是 1.5 RTT大约是 75s 以上，会造成软件质量的下降
+
+
+        这里通过 select 等待监控指定的时间，通过 getsockopt 判读连接是否建立完成
+        select 发现 conn 可读，并不能说明连接可用，
+        可以通过 getsockopt 进一步判断
+        造成可读的结果
+            1、连接建立完成
+            2、建立连接失败（失败回写信息，造成可读）
         */
         int select_ret = select(fd + 1, NULL, &connect_fdset, NULL, &timeout);
         if (select_ret == 0)
@@ -234,6 +245,13 @@ int connect_timeout(int fd, struct sockaddr_in *addr, unsigned int wait_seconds)
         }
         else if (select_ret == 1)
         {
+            /*
+            当 ret 返回值为1时，表示套接字可写。
+            这种情况可能有两种情况：一种是连接建立成功，另一种是套接字产生错误。
+            在后一种情况下，错误信息不会保存在 errno 变量中，
+            因此需要调用 getsockopt 函数来获取错误信息。
+
+            */
             int err;
             socklen_t socklen = sizeof(err);
             int sockopt_ret = getsockopt(fd, SOL_SOCKET, SO_ERROR, &err, &socklen);

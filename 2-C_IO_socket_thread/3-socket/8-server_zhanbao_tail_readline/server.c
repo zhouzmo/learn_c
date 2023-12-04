@@ -131,7 +131,8 @@ ssize_t readline(int sockfd, void *buf, size_t maxline)
             exit(EXIT_FAILURE);
         }
 
-        nleft -= nread; // 若缓冲区没有换行符，把剩余的数据读走
+        nleft -= nread; 
+        // 若缓冲区没有换行符，把剩余的数据读走,循环读，直到出现 \n
         ret = readn(sockfd, bufp, nread);
         if (ret != nread)
         {
