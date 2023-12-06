@@ -320,6 +320,11 @@ static int connect_timeout(int fd, struct sockaddr_in *addr, unsigned int wait_s
         activate_nonblock(fd);
     }
     /*
+    tcp/ip 在客户端连接服务器的时候，如果异常
+    connect 在 fd 阻塞的情况下，返回时间是 1.5 RTT大约是 75s 以上，会造成软件质量的下降
+
+
+
     connect函数的返回值为整型，表示连接的结果。
     如果连接成功建立，则返回0；
     如果连接正在进行中（非阻塞模式下），则返回-1，并将errno设置为EINPROGRESS；
@@ -343,8 +348,6 @@ static int connect_timeout(int fd, struct sockaddr_in *addr, unsigned int wait_s
         这是因为在非阻塞模式下，connect函数不会阻塞等待连接建立完成，而是立即返回。
         而不会阻塞当前线程。
 
-        tcp/ip 在客户端连接服务器的时候，如果异常
-        connect 在 fd 阻塞的情况下，返回时间是 1.5 RTT大约是 75s 以上，会造成软件质量的下降
 
 
         这里通过 select 等待监控指定的时间，通过 getsockopt 判读连接是否建立完成
@@ -736,7 +739,7 @@ int sck_recv(void *handle, int connfd, unsigned char *out, int *outlen)
     if (handle == NULL || out == NULL || outlen == NULL)
     {
         ret = Sck_ErrParam;
-        LOGGER("handle == NULL || data == NULL || datalen <= 0s %d\n", ret);
+        LOGGER("handle == NULL || out == NULL || outlen == NULL %d\n", ret);
         return ret;
     }
     SckHandle *tmp = NULL;
@@ -752,7 +755,7 @@ int sck_recv(void *handle, int connfd, unsigned char *out, int *outlen)
         if (ret == -1)
         {
             LOGGER("sockfd closed\n");
-            return -1;
+            return ret;
         }
         else if (ret < 4)
         {
@@ -799,7 +802,7 @@ int sck_recv(void *handle, int connfd, unsigned char *out, int *outlen)
         if (ret == -1 && errno == ETIMEDOUT)
         {
             ret = Sck_ErrTimeout;
-            LOGGER("ret:%d\n", ret);
+            LOGGER("time out ret:%d\n", ret);
             return ret;
         }
         else
@@ -819,6 +822,12 @@ int sck_recv(void *handle, int connfd, unsigned char *out, int *outlen)
 int sck_close(int connfd)
 {
     int ret = 0;
+    if (connfd < 0)
+    {
+        ret = Sck_ErrParam;
+        LOGGER("connfd < 0 %d\n", ret);
+        return ret;
+    }
 
     ret = close(connfd);
     if (ret < 0)
@@ -837,13 +846,18 @@ int sck_destory(void *handle, int connfd)
 
     LOGGER("close shutdown free %d\n", connfd);
     int ret = 0;
+    if (handle != NULL)
+    {
+        free(handle);
+    }
+
     ret = shutdown(connfd, SHUT_RDWR);
     if (ret < 0)
     {
         ret = errno;
         LOGGER("shutdown error %d\n", errno);
     }
-    free(handle);
+
     ret = sck_close(connfd);
     if (ret < 0)
     {

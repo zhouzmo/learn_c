@@ -7,14 +7,13 @@ int main()
     void *handle = NULL;
 
     int datalen = 10;
-    char out[1024]={0};
+    char out[1024] = {0};
     int outlen = 1024;
 
     int clientPort;
     char *clientIPaddr;
 
     // 客户端环境初始化
-
     ret = sckServer_init(&handle, 15, 5, 5, 1);
 
     while (1)
@@ -35,7 +34,7 @@ int main()
         printf("ret:%d\n", ret);
 
         // 客户端环境释放
-        ret = sck_destory(handle, connfd);
+        // ret = sck_destory(handle, connfd);
 
         printf("success\n");
     }
