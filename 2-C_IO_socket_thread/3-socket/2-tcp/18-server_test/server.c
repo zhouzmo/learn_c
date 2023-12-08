@@ -6,6 +6,26 @@
 #include <arpa/inet.h>
 #include <errno.h>
 
+/*
+实验：客户端循环连接服务器
+现象：
+1020
+socket: Too many open files
+说明：1020 + 3(基础的3个文件描述符) = 1023，即存在 1024 个文件描述符限制
+
+
+ 修改最大文件描述符数量，在对应的 shell客户端
+ ulimit -a
+ ulimit -n 2048
+
+发现还是有限制
+1148
+1149
+1150
+
+
+
+*/
 #define ERR_EXIT(msg)       \
     do                      \
     {                       \

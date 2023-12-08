@@ -15,10 +15,15 @@ int main()
         int timeout;
         printf("wait accept\n");
         ret = sckServer_accept(listenfd, &connfd, timeout);
-        if (ret < 0)
+        if (ret == Sck_ErrTimeout)
         {
             LOGGER("time_out ret=%d", ret);
             continue;
+        }
+        else if (ret < 0)
+        {
+            LOGGER("sckServer_accept ret=%d", ret);
+            // break;
         }
 
         int pid = fork();

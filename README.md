@@ -44,12 +44,13 @@ cd /mnt/learn_c/3-driver/0
 cd /home/book/learn_c/3-driver/0
 
 # 挂载跟文件系统脚本
-# 网络
-watch -n 0.1 -d  'netstat -na | grep 8888'
+
 
 # 统计数量
 netstat -n|awk '/^tcp/{++S[$NF]}END{for (key in S) print key,S[key]}'  
 
+
+# 网络
 watch -n 0.1 -d  'netstat -na | grep 8888'
 watch -n 0.1 -d  'ps -ef | grep -E out'
 

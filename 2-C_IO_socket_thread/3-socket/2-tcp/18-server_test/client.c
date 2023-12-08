@@ -7,6 +7,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #define ERR_EXIT(m)         \
     do                      \
     {                       \
@@ -58,6 +62,29 @@ ssize_t readline(int sockfd, void *buf, size_t maxline)
     return -1;
 }
 
+// 向套接字中写入指定长度的数据，写不够不返回
+ssize_t writen(int fd, const void *buf, size_t count)
+{
+    size_t needNum = count;
+    ssize_t nwritten;
+    const char *bufp = (const char *)buf;
+    while (needNum > 0)
+    {
+        if ((nwritten = write(fd, bufp, needNum)) < 0)
+        {
+            if (errno == EINTR)
+                continue;
+            return -1;
+        }
+        else if (nwritten == 0)
+            continue;
+
+        bufp += nwritten;
+        needNum -= nwritten;
+    }
+    return count;
+}
+
 void do_client(int sockfd)
 {
     char sendbuf[1024];
@@ -65,9 +92,20 @@ void do_client(int sockfd)
 
     while (fgets(sendbuf, sizeof(sendbuf), stdin) != NULL)
     {
+
+        // 发送数据
         write(sockfd, sendbuf, strlen(sendbuf));
 
         int ret = readline(sockfd, recvbuf, sizeof(recvbuf));
+
+        /*
+        场景实现：
+            当 ret == 0，但是 client 不处理，反而写入数据，
+            TCP协议会生成一个RST段，并且这可能会导致客户端产生一个 SIGPIPE 信号。
+         */
+        printf("update  ret(%d)->1\n", ret);
+        ret = 1; // 禁止客户端关闭，继续向其中写数据，产生 SIGPIPE
+
         if (ret == -1)
         {
             ERR_EXIT("readline");
@@ -86,18 +124,28 @@ void do_client(int sockfd)
     close(sockfd);
 }
 
+void sig_handler(int signum)
+{
+    int status;
+    printf("process pid:%d recv (%d)SIGPIPE\n ", getpid(), signum);
+    // wait(NULL);
+    // 仍然存在信号丢失，但是使用 while
+
+    printf("process pid:%d handle success\n ", getpid());
+}
+
 int main(void)
 {
+
+    signal(SIGPIPE, sig_handler);
+
     int i;
-    int connArr[100];
-    for (i = 0; i < 5; i++)
+    int sock[1024 * 2];
+    for (i = 0; i < 1024 * 2; i++)
     {
 
-        int sockfd;
-        if ((sockfd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
+        if ((sock[i] = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
             ERR_EXIT("socket");
-
-        connArr[i] = sockfd;
 
         struct sockaddr_in servaddr;
         memset(&servaddr, 0, sizeof(servaddr));
@@ -105,17 +153,22 @@ int main(void)
         servaddr.sin_port = htons(8888);
         servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-        if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0)
+        if (connect(sock[i], (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0)
+        {
+            printf("connect error\n");
+            sleep(2);
             ERR_EXIT("connect");
+        }
+        printf("%d\n", i);
 
-        struct sockaddr_in localaddr;
-        socklen_t addrlen = sizeof(localaddr);
-        if (getsockname(sockfd, (struct sockaddr *)&localaddr, &addrlen) < 0)
-            ERR_EXIT("getsockname");
-        printf("ip=%s port=%d\n", inet_ntoa(localaddr.sin_addr), ntohs(localaddr.sin_port));
+        // struct sockaddr_in localaddr;
+        // socklen_t addrlen = sizeof(localaddr);
+        // if (getsockname(sock[i], (struct sockaddr *)&localaddr, &addrlen) < 0)
+        //     ERR_EXIT("getsockname");
+        // printf("ip=%s port=%d\n", inet_ntoa(localaddr.sin_addr), ntohs(localaddr.sin_port));
     }
 
-    do_client(connArr[0]);
+    do_client(sock[0]);
 
     return 0;
 }
