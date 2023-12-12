@@ -6,10 +6,10 @@
 #include <string.h>
 
 // 线程回调函数
-void* pthread_func(void* arg)
+void *pthread_func(void *arg)
 {
 	static int num = 0;
-	void* handle = arg;
+	void *handle = arg;
 	int connfd = -1;
 	// 从连接池中取出一条连接
 	sckCltPool_getConnet(handle, &connfd);
@@ -29,10 +29,11 @@ void* pthread_func(void* arg)
 			printf("send 函数调用失败, fd = %d\n", connfd);
 			return ret;
 		}
+		printf("client send server msg: %s\n", out);
 
 		// 接收数据
 		int len = -1;
-		unsigned char* out = NULL;
+		unsigned char *out = NULL;
 
 		ret = sckCltPool_rev(handle, connfd, &out, &len);
 		if (ret == Sck_ErrTimeOut)
@@ -52,7 +53,7 @@ void* pthread_func(void* arg)
 	sckCltPool_putConnet(handle, connfd, 0);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 #if 0
 	// 初始化套接字
@@ -76,12 +77,12 @@ int main(int argc, char* argv[])
 	sckServer_close(connfd);
 #else
 	// 客户端 - 使用连接池版本
-	void* handle = NULL;
+	void *handle = NULL;
 	SCKClitPoolParam param;
-	param.bounds = 10;	// 创建10条连接
-	param.connecttime = 5;	// 连接超时为5s
-	param.revtime = 5;		// 接收数据超时5s
-	param.sendtime = 5;		// 发送数超时5s
+	param.bounds = 10;	   // 创建10条连接
+	param.connecttime = 5; // 连接超时为5s
+	param.revtime = 5;	   // 接收数据超时5s
+	param.sendtime = 5;	   // 发送数超时5s
 	strcpy(param.serverip, "127.0.0.1");
 	param.serverport = 9999;
 	// 初始化连接池
@@ -107,4 +108,4 @@ int main(int argc, char* argv[])
 #endif
 
 	return 0;
-		}
+}

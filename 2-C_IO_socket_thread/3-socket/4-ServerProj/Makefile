@@ -3,10 +3,10 @@ CFLAGS = -Wall -Wextra -g -pthread
 
 all: client.out server.out
 
-client.out: client_demo.c poolsocket.c socketlog.c socketutil.c
+client.out: aclient_demo.c poolsocket.c socketlog.c socketutil.c
 	$(CC) $(CFLAGS) $^ -o $@
 
-server.out: server_demo.c poolsocket.c socketlog.c socketutil.c
+server.out: aserver_demo.c poolsocket.c socketlog.c socketutil.c
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:

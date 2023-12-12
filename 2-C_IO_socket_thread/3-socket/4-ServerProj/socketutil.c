@@ -396,7 +396,7 @@ int sckClient_send(int connfd, int sendtime, unsigned char *data, int datalen)
 			return writed;
 		}
 
-		if (netdata != NULL)  //wangbaoming 20150630 modify bug
+		if (netdata != NULL)  
 		{
 			free(netdata);
 			netdata = NULL;
@@ -719,7 +719,7 @@ int sckServer_rev(int connfd, int timeout, unsigned char **out, int *outlen)
 		return ret;
 	}
 
-	ret = read_timeout(connfd, timeout); //bugs modify bombing
+	ret = read_timeout(connfd, timeout); 
 	if (ret != 0)
 	{
 		if (ret == -1 || errno == ETIMEDOUT)
