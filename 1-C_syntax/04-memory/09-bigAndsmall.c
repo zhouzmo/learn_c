@@ -31,11 +31,11 @@ int main(int argc, char const *argv[])
     char* p = (char*)&a;
 
     if(0x12 == *p){
-        printf("大端\n");
+        printf("大端 *p = 0x12\n");
     }
 
     if(0x78 == *p){
-        printf("小端\n");
+        printf("小端 0x78 == *p\n");
     }
 
     printf("%x %x %x %x \n",*(p+3),*(p+2),*(p+1),*(p));
