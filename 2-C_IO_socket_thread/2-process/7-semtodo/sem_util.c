@@ -1,8 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/sem.h>
+
+
+#include "sem_util.h"
+
 
 union semun
 {
@@ -12,7 +11,7 @@ union semun
     struct seminfo *__buf; /* IPC_INFO 操作的缓冲区（特定于 Linux） */
 };
 
-void sem_p(int semid)
+int sem_p(int semid)
 {
     struct sembuf sem_op;
     sem_op.sem_num = 0;
@@ -21,7 +20,7 @@ void sem_p(int semid)
     semop(semid, &sem_op, 1);
 }
 
-void sem_v(int semid)
+int sem_v(int semid)
 {
     struct sembuf sem_op;
     sem_op.sem_num = 0;
@@ -30,32 +29,32 @@ void sem_v(int semid)
     semop(semid, &sem_op, 1);
 }
 
-void sem_delete(int semid)
+int sem_delete(int semid)
 {
     semctl(semid, 0, IPC_RMID);
 }
 
-void sem_setval(int semid, int value)
+int sem_setval(int semid, int value)
 {
     union semun sem_val;
     sem_val.val = value;
     semctl(semid, 0, SETVAL, sem_val);
 }
 
-void sem_getmode(int semid)
+int sem_getmode(int semid)
 {
     struct semid_ds sem_info;
     semctl(semid, 0, IPC_STAT, &sem_info);
     printf("Semaphore permissions: %o\n", sem_info.sem_perm.mode);
 }
 
-void sem_getval(int semid)
+int sem_getval(int semid)
 {
     int val = semctl(semid, 0, GETVAL);
     printf("Semaphore value: %d\n", val);
 }
 
-void sem_setmode(int semid, char *mode)
+int sem_setmode(int semid, char *mode)
 {
     struct semid_ds sem_info;
     sem_info.sem_perm.mode = strtol(mode, 0, 8);
@@ -106,7 +105,7 @@ int main(int argc, char *argv[])
             break;
         case 's':
             semid = sem_open(key);
-            sem_setval(semid, atoi(optarg));
+            // sem_setval(semid, atoi(optarg));
             break;
         case 'g':
             semid = sem_open(key);

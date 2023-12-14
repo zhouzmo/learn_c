@@ -126,7 +126,7 @@ int main(int argc, char *argu[])
     stup = shmat(ret, NULL, 0);
 
     Student stu = {18, "zhoumo"};
-    memcopy(stup, &stu, sizeof(stu));
+    memcpy(stup, &stu, sizeof(stu));
 
     return 0;
 }

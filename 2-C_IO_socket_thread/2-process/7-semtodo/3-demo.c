@@ -6,7 +6,10 @@
 #include <sys/sem.h>
 #include <errno.h>
 #include "sem_util.h"
-main(int argc, char *argv[])
+
+
+
+int main(int argc, char *argv[])
 {
     int semid;
     int val;

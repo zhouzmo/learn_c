@@ -1,5 +1,7 @@
-#ifndef SEM_UTIL_H
-#define SEM_UTIL_H
+#ifndef _SEM_UTIL_H_
+#define _SEM_UTIL_H_
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/sem.h>
@@ -14,4 +16,5 @@ int sem_setval(int semid, int value);
 int sem_getval(int semid, int *val);
 int sem_v(int semid);
 int sem_p(int semid);
-#endif
+
+#endif /* _SEM_UTIL_H_ */
