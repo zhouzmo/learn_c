@@ -51,8 +51,8 @@ void timer(int second)
 
 void *fun1(void *arg)
 {
-    static int temp = 0; 
-    // int temp = 0;// 不加 static ，temp存放在栈区，跟随函数一起被释放，加上static ，temp 在bbs区，不会被释放，可以访问
+    // static int temp = 0; 
+    int temp = 0;// 不加 static ，temp存放在栈区，跟随函数一起被释放，加上static ，temp 在bbs区，不会被释放，可以访问
     temp = *(int *)arg;
     temp += 100;
     printf("%s:Addr = %p temp = %d\n", __FUNCTION__, &temp, temp);
