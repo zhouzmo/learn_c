@@ -60,3 +60,4 @@ gdb -tui -q server.out
 
 
   printf("%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__);
+  printf("%s:%d\n", __FUNCTION__, __LINE__);
