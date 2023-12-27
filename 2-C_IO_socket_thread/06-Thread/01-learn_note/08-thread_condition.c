@@ -16,12 +16,73 @@
 
 // 初始化条件变量
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
-int pthread_cond_init(pthread_cond_t *cond, pthread_condattr_t *cond_attr);//cond_at
-tr 通常为 NULL
+int pthread_cond_init(pthread_cond_t *cond, pthread_cond attr_t *cond_attr);
+//cond_attr 通常为 NULL
 // 销毁条件变量
 int pthread_cond_destroy(pthread_cond_t *cond);
 这些函数成功时都返回 0
 */
+
+/*
+当涉及到线程间的条件等待时，`pthread_cond_t` 结构和相关函数用于实现线程间的同步。下面是与 `pthread_cond_t` 相关的主要函数文档：
+
+### 初始化条件变量
+
+```c
+int pthread_cond_init(pthread_cond_t *restrict cond, const pthread_condattr_t *restrict attr);
+```
+
+- `cond`：指向待初始化的条件变量的指针。
+- `attr`：条件变量的属性。通常设置为 `NULL`。
+
+返回值：成功初始化返回 0，失败返回错误码。
+
+---
+
+### 销毁条件变量
+
+```c
+int pthread_cond_destroy(pthread_cond_t *cond);
+```
+
+- `cond`：指向待销毁的条件变量的指针。
+
+返回值：成功销毁返回 0，失败返回错误码。
+
+---
+
+### 等待条件变量满足
+
+```c
+int pthread_cond_wait(pthread_cond_t *restrict cond, pthread_mutex_t *restrict mutex);
+```
+
+- `cond`：指向条件变量的指针。
+- `mutex`：指向已锁定的互斥锁的指针。
+
+返回值：返回时不可预测。在返回之前，函数会原子地释放 `mutex`，并使调用线程阻塞，直到另一个线程调用 `pthread_cond_signal` 或 `pthread_cond_broadcast` 并且调用成功为止。
+
+---
+
+### 唤醒等待条件变量的线程
+
+```c
+int pthread_cond_signal(pthread_cond_t *cond);
+int pthread_cond_broadcast(pthread_cond_t *cond);
+```
+
+- `cond`：指向条件变量的指针。
+
+`pthread_cond_signal`：唤醒等待在 `cond` 上的一个线程。
+
+`pthread_cond_broadcast`：唤醒等待在 `cond` 上的所有线程。
+
+返回值：成功返回 0，失败返回错误码。
+
+这些函数通常与互斥锁配合使用，允许线程在某个条件满足之前等待，然后在条件满足时被唤醒继续执行。
+
+*/
+
 
 static char g_buf[1000];
 static pthread_mutex_t g_tMutex = PTHREAD_MUTEX_INITIALIZER;
