@@ -7,18 +7,32 @@
 #define UPDATE_PATH "update/"
 #define SD_PATH ""
 
-
-#define MD5_LENGTH 33       // 32(md5 校验码长度) + 1(字符串尾部)
+#define MD5_LENGTH 33 // 32(md5 校验码长度) + 1(字符串尾部)
 #define CMD_LENGTH_MAX 128
 
 /*
 
 1.检查 指定目录 是否存在 指定文件
 2.存在指定文件，对 targetFile 进行 md5 计算
-3.备份
+3.备份设备节点下(/dev/mtd2 )的 内容
 
 
 
+
+
+*/
+
+
+/*
+
+
+问题  dev/mtd2 和 image.bin 的关系
+
+这个命令将 sda 盘备份到指定文件 /root/sda.img 中去，其中用到了如下两个选项：
+
+if=文件名：指定输入文件名或者设备名，如果省略“if=文件名”，则表示从标准输入读取。
+
+of=文件名：指定输出文件名或者设备名，如果省略“of=文件名”，则表示写到标准输出。
 
 
 */
@@ -43,7 +57,6 @@ int fileExists(char *dirPath, char *filename)
     }
     return 0; // 文件不存在
 }
-
 
 /* 调用 /usr/bin/md5sum 生成指定文件的 md5 值 */
 char *md5sum(char *filePath)
@@ -86,6 +99,11 @@ char *md5sum(char *filePath)
     printf("old md5:%s---sizeof(md5_buf)%ld,strlen(md5_buf)%ld\n", md5_buf, sizeof(md5_buf), strlen(md5_buf));
 
     return md5_buf;
+}
+
+/* todo */
+int md5compare(char *md5one, char *md5two)
+{
 }
 
 int main()
